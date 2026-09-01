@@ -1,0 +1,26 @@
+{
+  "name": "mcp-zapi",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Servidor MCP remoto com todos os endpoints da Z-API (WhatsApp), com OAuth 2.1, para deploy na Vercel",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.21.0",
+    "mcp-handler": "^1.0.2",
+    "next": "^15.5.4",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "jose": "^6.1.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.1.9",
+    "typescript": "^5.9.2"
+  }
+}
