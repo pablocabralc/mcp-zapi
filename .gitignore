@@ -1,10 +1,9 @@
 node_modules/
 .next/
-.env
-.env*.local
 .vercel
 *.tsbuildinfo
 next-env.d.ts
 
-.vercel
+# Segredos: ignora todo .env, menos o exemplo sem credenciais
 .env*
+!.env.example
