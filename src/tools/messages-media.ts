@@ -16,7 +16,8 @@ export const messagesMediaTools: ToolDef[] = [
     description:
       'Envia uma mensagem de texto para um contato ou grupo. E o endpoint mais versatil do WhatsApp: alem do envio simples, ' +
       'permite responder/citar outra mensagem (messageId), mencionar participantes de um grupo (mentioned, mentionAll ou groupMentioned), ' +
-      'responder no privado de quem escreveu no grupo (privateAnswer) e ate EDITAR um texto ja enviado (editMessageId). ' +
+      'responder no privado de quem escreveu no grupo (privateAnswer) e editar um texto ja enviado (editMessageId — ' +
+      'exige o webhook "ao enviar" configurado na instancia; veja a descricao do campo). ' +
       'Use esta tool sempre que a mensagem for so texto. POST /send-text',
     inputSchema: {
       phone,
@@ -27,7 +28,11 @@ export const messagesMediaTools: ToolDef[] = [
         .string()
         .optional()
         .describe(
-          'Opcional. ID de uma mensagem de texto JA ENVIADA por voce que deve ser editada; o campo message vira o novo conteudo dela.',
+          'Opcional. ID de uma mensagem de texto JA ENVIADA por voce que deve ser editada; o campo message vira o novo conteudo dela. ' +
+            'PRE-REQUISITO: a Z-API so edita se o webhook "ao enviar" (deliveryCallbackUrl) estiver configurado na instancia. ' +
+            'Sem ele o campo e IGNORADO EM SILENCIO e uma mensagem NOVA e enviada, com messageId diferente. ' +
+            'Verifique com zapi_get_me; se deliveryCallbackUrl estiver vazio, configure antes com zapi_set_webhook_delivery. ' +
+            'Sempre compare o messageId da resposta com o original: se mudou, a edicao nao aconteceu.',
         ),
       messageId: quotedMessageId,
       mentioned: z
@@ -80,7 +85,11 @@ export const messagesMediaTools: ToolDef[] = [
       editImageMessageId: z
         .string()
         .optional()
-        .describe('Opcional. ID de uma mensagem de imagem ja enviada por voce que deve ser editada.'),
+        .describe(
+          'Opcional. ID de uma mensagem de imagem ja enviada por voce que deve ser editada. ' +
+            'PRE-REQUISITO: exige o webhook "ao enviar" (deliveryCallbackUrl) configurado; sem ele o campo e ignorado ' +
+            'em silencio e uma mensagem NOVA e enviada. Verifique com zapi_get_me.',
+        ),
     },
     handler: (args) => zapiRequest('POST', '/send-image', { body: toBody(args), instanceAlias: args.instanceAlias }),
   }),
@@ -159,7 +168,11 @@ export const messagesMediaTools: ToolDef[] = [
       editVideoMessageId: z
         .string()
         .optional()
-        .describe('Opcional. ID de uma mensagem de video ja enviada por voce que deve ser editada.'),
+        .describe(
+          'Opcional. ID de uma mensagem de video ja enviada por voce que deve ser editada. ' +
+            'PRE-REQUISITO: exige o webhook "ao enviar" (deliveryCallbackUrl) configurado; sem ele o campo e ignorado ' +
+            'em silencio e uma mensagem NOVA e enviada. Verifique com zapi_get_me.',
+        ),
     },
     handler: (args) => zapiRequest('POST', '/send-video', { body: toBody(args), instanceAlias: args.instanceAlias }),
   }),
@@ -201,7 +214,11 @@ export const messagesMediaTools: ToolDef[] = [
       editDocumentMessageId: z
         .string()
         .optional()
-        .describe('Opcional. ID de uma mensagem de documento ja enviada por voce que deve ser editada.'),
+        .describe(
+          'Opcional. ID de uma mensagem de documento ja enviada por voce que deve ser editada. ' +
+            'PRE-REQUISITO: exige o webhook "ao enviar" (deliveryCallbackUrl) configurado; sem ele o campo e ignorado ' +
+            'em silencio e uma mensagem NOVA e enviada. Verifique com zapi_get_me.',
+        ),
     },
     handler: (args) =>
       zapiRequest('POST', `/send-document/${encodeURIComponent(args.extension)}`, {
