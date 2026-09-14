@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "description": "Servidor MCP remoto com todos os endpoints da Z-API (WhatsApp), com OAuth 2.1, para deploy na Vercel",
+  "license": "Apache-2.0",
+  "author": "Pablo Cabral (https://github.com/pablocabralc)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pablocabralc/mcp-zapi.git"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
